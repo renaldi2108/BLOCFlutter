@@ -1,5 +1,5 @@
-import 'package:bloclearn/src/bloc/MyBloc.dart';
-import 'package:bloclearn/src/models/MyModel.dart';
+import 'package:bloclearn/src/bloc/mybloc.dart';
+import 'package:bloclearn/src/models/mymodel.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {

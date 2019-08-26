@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:bloclearn/src/models/MyModel.dart';
+import 'package:bloclearn/src/models/mymodel.dart';
 
 class MyBloc {
 
