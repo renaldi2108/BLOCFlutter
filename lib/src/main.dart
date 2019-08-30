@@ -1,5 +1,5 @@
 import 'package:bloclearn/src/bloc/mybloc.dart';
-import 'package:bloclearn/src/models/mymodel.dart';
+import 'package:bloclearn/src/models/baseresponse.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -15,6 +15,12 @@ class _MainPageState extends State<MainPage> {
   final MyBloc _myBloc = new MyBloc();
 
   @override
+  void initState() {
+    super.initState();
+    _myBloc.getMeal();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _myBloc.dispose();
@@ -23,35 +29,42 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Container(
-        child: StreamBuilder<List<MyModel>>(
-          stream: _myBloc.myListStream,
-          builder: (BuildContext context, AsyncSnapshot<List<MyModel>> snapshot){
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            Text("${snapshot.data[index].name}"),
-                            Text("${snapshot.data[index].address}")
-                          ],
-                        ),
-                      )
-                    ],
-                  )
-                );
-              }
-            );
-          }
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(widget.title),
+//        leading: IconButton(
+//            icon: Icon(Icons.arrow_back),
+//            onPressed: () => Navigator.pop(context, false))
+        ),
+        body: Container(
+            child: StreamBuilder<BaseResponse<List<dynamic>>>(
+                stream: _myBloc.subject.stream,
+                builder: (BuildContext context, AsyncSnapshot<BaseResponse<List<dynamic>>> snapshot) {
+                  List<MyHellow> list = List<MyHellow>.from(snapshot.data.meals.map((x) => MyHellow.fromJson(x)));
+                  return Container(
+                    child: Center(
+                      child: Text(list[0].strMeal),
+                    ),
+                  );
+                }
+            )
         )
-      )
     );
   }
+}
+
+class MyHellow {
+  String strMeal, strMealThumb, idMeal,
+      strCategory, strArea, strInstructions;
+
+  MyHellow({ this.strMeal, this.strMealThumb, this.idMeal, this.strCategory, this.strArea, this.strInstructions});
+
+  factory MyHellow.fromJson(Map<String, dynamic> json) => MyHellow(
+    strMeal: json["strMeal"],
+    strMealThumb: json["strMealThumb"],
+    idMeal: json["strMealThumb"],
+    strCategory: json["strMealThumb"],
+    strArea: json["strMealThumb"],
+    strInstructions: json["strMealThumb"]
+  );
 }
