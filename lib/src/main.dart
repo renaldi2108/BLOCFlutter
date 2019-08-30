@@ -1,5 +1,6 @@
 import 'package:bloclearn/src/bloc/mybloc.dart';
 import 'package:bloclearn/src/models/baseresponse.dart';
+import 'package:bloclearn/src/models/meal.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -40,7 +41,7 @@ class _MainPageState extends State<MainPage> {
             child: StreamBuilder<BaseResponse<List<dynamic>>>(
                 stream: _myBloc.subject.stream,
                 builder: (BuildContext context, AsyncSnapshot<BaseResponse<List<dynamic>>> snapshot) {
-                  List<MyHellow> list = List<MyHellow>.from(snapshot.data.meals.map((x) => MyHellow.fromJson(x)));
+                  List<Meal> list = List<Meal>.from(snapshot.data.meals.map((x) => Meal.fromJson(x)));
                   return Container(
                     child: Center(
                       child: Text(list[0].strMeal),
@@ -51,20 +52,4 @@ class _MainPageState extends State<MainPage> {
         )
     );
   }
-}
-
-class MyHellow {
-  String strMeal, strMealThumb, idMeal,
-      strCategory, strArea, strInstructions;
-
-  MyHellow({ this.strMeal, this.strMealThumb, this.idMeal, this.strCategory, this.strArea, this.strInstructions});
-
-  factory MyHellow.fromJson(Map<String, dynamic> json) => MyHellow(
-    strMeal: json["strMeal"],
-    strMealThumb: json["strMealThumb"],
-    idMeal: json["strMealThumb"],
-    strCategory: json["strMealThumb"],
-    strArea: json["strMealThumb"],
-    strInstructions: json["strMealThumb"]
-  );
 }
