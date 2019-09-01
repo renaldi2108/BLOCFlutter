@@ -38,18 +38,66 @@ class _MainPageState extends State<MainPage> {
 //            onPressed: () => Navigator.pop(context, false))
         ),
         body: Container(
-            child: StreamBuilder<BaseResponse<List<dynamic>>>(
+            child: StreamBuilder<BaseResponse<List<Meal>>>(
                 stream: _myBloc.subject.stream,
-                builder: (BuildContext context, AsyncSnapshot<BaseResponse<List<dynamic>>> snapshot) {
-                  List<Meal> list = List<Meal>.from(snapshot.data.meals.map((x) => Meal.fromJson(x)));
-                  return Container(
-                    child: Center(
-                      child: Text(list[0].strMeal),
-                    ),
-                  );
+                builder: (BuildContext context, AsyncSnapshot<BaseResponse<List<Meal>>> snapshot) {
+                  if(snapshot.hasData) {
+                    if (snapshot.data.meals != null && snapshot.data.meals.length > 0){
+                      return Container(
+                          child: GridView.builder(
+                              itemCount: snapshot.data.meals.length,
+                              gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2
+                              ),
+                              itemBuilder: (context, position) {
+                                var data = snapshot.data.meals[position];
+                                return GestureDetector(
+                                    child: _createList(data)
+                                );
+                              }
+                          )
+                      );
+                    }
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                 }
             )
         )
     );
   }
+
+  Widget _createList(Meal data) => Column(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: <Widget>[
+      Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: ClipRRect(
+              borderRadius: new BorderRadius.circular(16.0),
+              child: new Image.network(
+                data.strMealThumb,
+                // height: 90.0,
+                // width: 100.0,
+                height: 130.0,
+                fit: BoxFit.cover,
+              ),
+            ),
+          )),
+      SizedBox(
+        width: 5.0,
+      ),
+      Container(
+        child: Center(
+            child: Text(
+              data.strMeal,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+            )
+        ),
+      )
+    ],
+  );
 }
