@@ -1,6 +1,6 @@
 # bloclearn
 
-<image src="https://miro.medium.com/max/1044/1*MqYPYKdNBiID0mZ-zyE-mA.png" width="250px"/>
+<image src="https://miro.medium.com/max/1044/1*MqYPYKdNBiID0mZ-zyE-mA.png" />
 
 A new Flutter application.
 
